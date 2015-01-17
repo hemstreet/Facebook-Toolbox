@@ -1,7 +1,7 @@
 var referralSites = {
     'amazon.com': {
-        'code':    '?dsfkjhaskjfhadskjf',
-        'pattern': '/([a-zA-Z0-9]+.)/'
+        'code':    '344342234',
+        'pattern': 'tag='
     },
     'ebay.com':   {}
 };
