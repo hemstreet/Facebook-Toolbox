@@ -10,12 +10,7 @@ var referralSites = {
     }
 };
 
-//var url = window.location.href;
-
 var domain = window.location.hostname.replace(/([a-zA-Z0-9]+.)/, "");
-
-//window.location.assign("http://www.w3schools.com")
-
 
 for (var url in referralSites) {
 
