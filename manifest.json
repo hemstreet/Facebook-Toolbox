@@ -43,6 +43,11 @@
 
             ],
 
+            "js": [
+                "js/jquery/jquery.min.js",
+                "js/facebook/facebook.js"
+            ],
+
             "css": [
                 "src/inject/inject.css"
 
