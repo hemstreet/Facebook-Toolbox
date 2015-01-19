@@ -22,6 +22,7 @@ var facebook = {
         userKey = userKey.split('/')[3]; // Get the fourth segment of the url string
 
         this.userKey = userKey;
+        this.log('set user key to :' + this.userKey);
 
     },
 
