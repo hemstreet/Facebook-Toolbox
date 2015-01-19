@@ -3,21 +3,25 @@ var debug = true;
 var facebook = {
     userKey:             null,
     host:                'localhost', // For Remote db
+    db:                  null,
     dislikeBoxTemplate:  '<html markup>',
     dislikeLinkTemplate: '<html markup>',
 
-
-    init:       function () {
+    init:                    function () {
 
         this.log('facebook init');
+
+        // Init database for saving
+        this.initDatabase();
 
         // Get unique key
         this.getUserKey();
 
+
         // Setup Facebook post listeners
         this.initPostScroll();
     },
-    getUserKey: function () {
+    getUserKey:              function () {
         var userKey = $('#pagelet_bluebar [title]').attr('href');
         userKey = userKey.split('/')[3]; // Get the fourth segment of the url string
 
@@ -25,7 +29,6 @@ var facebook = {
         this.log('set user key to :' + this.userKey);
 
     },
-
     initPostScroll:          function () {
 
         this.onScroll();
@@ -60,12 +63,17 @@ var facebook = {
         // Drop in dislike link using this.dislikeBoxTemplate or this.dislikeLinkTemplate markup
         // Setup listeners for on click
     },
-    dislikeLinkClicked:     function () {
+    dislikeClicked:         function () {
         // Get post
         // Check the db for duplicate clicks
         // If duplicate decrement dislike count
         // Otherwise if its a new click, increment the dislike count
         // Update Post to reflect updated dislike count
+    },
+    initDatabase:           function (options) {
+        // Get host off of options options.host else use preset
+        // Get type of db ( Adapters )
+        // start connection
     },
     log:                    function (msg) {
         if (debug) {
