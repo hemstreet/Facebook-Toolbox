@@ -33,9 +33,12 @@ var facebook = {
     },
     initPostScroll : function () {
 
-        this.onScroll();
+        this.log( 'initPostScroll' );
+
+        $( window ).scroll( this.onScroll.bind(this) );
+
         // Fire on scroll event to ensure we are running the onScroll event
-        $( window ).scroll( this.onScroll() );
+        this.onScroll();
 
     },
     onScroll : function () {
@@ -46,7 +49,8 @@ var facebook = {
         // if not add dislike template markup
         // query for number of dislikes
         // add has-dislike-feature class
-
+        //var contentArea = $('#contentArea');
+        console.log( $( '.userContentWrapper' )[ 0 ] );
     },
     checkForCurrentDislikes : function () {
 
