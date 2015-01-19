@@ -39,6 +39,7 @@
       ],
       "js": [
         "js/jquery/jquery.min.js",
+        "js/lib/facebook.js",
         "js/facebook/facebook.js"
       ],
       "css": [

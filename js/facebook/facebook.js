@@ -1,5 +1,8 @@
 (function ($) {
 
-alert('facebook');
+    $(window).on('ready', function() {
+        facebook.init();
+    });
 
 })(jQuery);
+
