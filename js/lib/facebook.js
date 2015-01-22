@@ -35,7 +35,7 @@ var facebook = {
 
         this.log( 'initPostScroll' );
 
-        $( window ).scroll( this.onScroll.bind(this) );
+        $( window ).scroll( this.onScroll.bind( this ) );
 
         // Fire on scroll event to ensure we are running the onScroll event
         this.onScroll();
@@ -43,14 +43,57 @@ var facebook = {
     },
     onScroll : function () {
 
-        // fire method on scroll to grab all of the posts on the page
         // get unique post id
-        // check if it has the class has-dislike-feature
         // if not add dislike template markup
         // query for number of dislikes
         // add has-dislike-feature class
         //var contentArea = $('#contentArea');
-        console.log( $( '.userContentWrapper' )[ 0 ] );
+
+        // check if it has the class has-dislike-feature
+        var posts = $( '.userContentWrapper:not(.has-dislike-feature)' );
+
+        for ( var i = 0; i < posts.length; i++ ) {
+
+            var post = posts[ i ];
+            var container = post.parentNode;
+
+
+            // inject dislike box / link
+            // check for current likes / dislike
+
+            console.log('onScroll is where you left off');
+
+            console.log(post);
+
+            console.log(facebook);
+
+            //var storyKey = this.parsePostForStoryKey( container );
+
+
+            post.addClass( 'has-dislike-feature' );
+        }
+
+        //posts.each( function () {
+        //    var post = $( this );
+        //    var container = post.parent();
+        //
+        //    post.addClass( 'has-dislike-feature' );
+        //} );
+
+        //posts.each(function(post) {
+        //    var container = post.parent();
+        //    console.log(container);
+        //    post.css('background', '#000');
+        //})
+    },
+    parsePostForStoryKey : function ( container ) {
+
+        //var post = container.closest( '[data-ft][data-timestamp]' ),
+        //    dataFt = post.attr( 'data-ft' ),
+        //    json = JSON.parse( dataFt ),
+        //    storyKey = json.mf_story_key;
+        //
+        //return storyKey;
     },
     checkForCurrentDislikes : function () {
 
