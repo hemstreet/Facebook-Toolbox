@@ -7,6 +7,9 @@ MVP
 * Referral monetization system
 * Facebook Dislike
 
+@Todo 
+* Research point referral kicks in ( checkout screen, adding item to a cart ), this way we can redirect only when needed so the user does not get annoyed at the constant refreshing
+
 V 1.0.0
 * Slap
 
