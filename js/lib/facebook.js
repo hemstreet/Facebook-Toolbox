@@ -3,7 +3,7 @@ var debug = true;
 var facebook = {
 
     userKey : null,
-    host : 'localhost', // For Remote db
+    host : 'https://jonhemstreet.com/facebook/dislike', // For Remote db
     db : null,
 
     init : function () {
@@ -50,6 +50,8 @@ var facebook = {
 
             var dislikes = this.checkForCurrentDislikes( container );
 
+            console.log(dislikes);
+
             this.attachDislikeContainer( container, dislikes );
             this.attachDislikeSentence( container, dislikes );
 
@@ -77,10 +79,30 @@ var facebook = {
 
     checkForCurrentDislikes : function ( container ) {
 
-        var storyKey = this.parsePostForStoryKey( container ),
-            dislikes = 0;
+        var data = {
+            'action' : 'read',
+            'post' : this.parsePostForStoryKey(container)
+        };
 
-        container.attr( 'toolbox-dislikes', dislikes );
+        var xhr = new XMLHttpRequest();
+
+        xhr.open('GET', this.url + '?action=' + data.action + '&post=' + data.post, false);
+
+        xhr.send();
+
+
+        var json = JSON.parse(xhr.responseText ),
+            dislikes = json.count || 0;
+
+        //$.ajax({
+        //    type: "GET",
+        //    url: this.host,
+        //    data: data,
+        //    success: function(_data) {
+        //        console.log(_data);
+        //    }
+        //});
+
 
         return dislikes;
 
@@ -126,25 +148,39 @@ var facebook = {
     },
 
     buildDislikeLink : function ( dislikes ) {
-        this.log( 'buildDislikeLink' );
         return '<a class="UFILikeLink" href="#" role="button" title="Dislike this comment">Dislike</a>';
     },
     buildDislikeBox : function ( dislikes ) {
-        this.log( 'buildDislikeBox' );
         return '<span><i class="UFIBlingBoxLikeIcon UFIBlingBoxSprite dislikeIcon"></i><span class="UFIBlingBoxText">' + dislikes + '</span></span>';
     },
     buildDislikeSentence : function ( dislikes ) {
-        this.log( 'buildDislikeSentence' );
         return '<li class="UFIRow UFILikeSentence UFIFirstComponent"><span><a rel="dialog" data-tooltip-alignh="center" role="button"><div class="lfloat"><a class="UFILikeThumbUFIImageBlockImage" href="#" tabindex="-1" title="Dislike this" role="button" aria-label="Disike this"><i class="UFILikeIcon dislikeIcon dislikeSentence"></i></a></div>' + dislikes + ' people</a><span> dislike this.</span></span></li>'
     },
     dislikeClicked : function ( container ) {
 
-        this.log( container );
         // Get post
         // Check the db for duplicate clicks
         // If duplicate decrement dislike count
         // Otherwise if its a new click, increment the dislike count
         // Update Post to reflect updated dislike count
+
+        var data = {
+            'action' : 'create',
+            'post' : this.parsePostForStoryKey(container),
+            'user' : this.userKey
+        };
+
+
+        console.log('dislike clicked');
+        $.ajax({
+            type: "GET",
+            url: this.host,
+            data: data,
+            success: function(_data) {
+                console.log(_data);
+            }
+        });
+
 
     },
     attachDislikeSentence : function ( container, dislikes ) {
