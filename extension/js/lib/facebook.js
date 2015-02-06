@@ -1,15 +1,11 @@
-var debug = true;
+var debug = false;
 
 var facebook = {
 
     userKey : null,
     host : 'https://jonhemstreet.com/facebook/dislike', // For Remote db
-    db : null,
 
     init : function () {
-
-        // Init database for saving
-        this.initDatabase();
 
         // Get unique key
         this.getUserKey();
@@ -34,12 +30,6 @@ var facebook = {
     },
     onScroll : function () {
 
-        // get unique post id
-        // if not add dislike template markup
-        // query for number of dislikes
-        // add has-dislike-feature class
-        //var contentArea = $('#contentArea');
-
         // check if it has the class has-dislike-feature
         var posts = $( '.userContentWrapper:not(.has-dislike-feature)' );
 
@@ -50,11 +40,21 @@ var facebook = {
 
             var dislikes = this.checkForCurrentDislikes( container );
 
-            console.log(dislikes);
-
             this.attachDislikeContainer( container, dislikes );
             this.attachDislikeSentence( container, dislikes );
 
+            var buttons = $( '.dislikeButton', container );
+
+            buttons.each( function () {
+
+                $( this ).on( 'click', function ( e ) {
+
+                    e.preventDefault();
+                    facebook.dislikeClicked( $( this ) );
+
+                    debug ? $( this ).css( 'border', '1px solid purple' ) : '';
+                } );
+            } );
             // Debug
             debug ? $( post ).css( 'border', '1px solid green' ) : '';
 
@@ -64,116 +64,92 @@ var facebook = {
     },
     parsePostForStoryKey : function ( container ) {
 
-        //console.log('parsing post for story key');
-        //console.log(container);
-
         // Debug
         debug ? container.css( 'border', '1px solid red' ) : '';
 
         var dataFt = container.attr( 'data-ft' ),
             json = JSON.parse( dataFt ),
-            storyKey = json.mf_story_key;
+            storyKey = json.mf_story_key || json.id;
 
         return storyKey;
     },
 
-    checkForCurrentDislikes : function ( container ) {
+    updateDislikeDom : function ( data, dom ) {
 
-        var data = {
-            'action' : 'read',
-            'post' : this.parsePostForStoryKey(container)
-        };
+        var dislikeContainers = $( '.dislikeContainer', dom );
 
-        this.request(this.host, '?action=' + data.action + '&post=' + data.post);
+        var _data = JSON.parse( data );
 
 
-        //var json = JSON.parse(xhr.responseText ),
-        //    dislikes = json.count || 0;
+        dislikeContainers.each( function () {
 
-        //$.ajax({
-        //    type: "GET",
-        //    url: this.host + '?action=' + data.action + '&post=' + data.post,
-        //    data: data,
-        //    success: function(_data) {
-        //        return _data;
-        //    }
-        //});
+            debug ? $( this ).css('border', '1px solid yellow') : '';
 
-        // Get current number of dislikes
-        // Approach 1
-        // Return value from attribute on the post data-titan-post
-        // Approach 2
-        // Facebook get storyKey ?
-        //var post = $(this).closest('[data-ft][data-timestamp]'),
-        //dataFt = post.attr('data-ft'),
-        //json = JSON.parse(dataFt),
-        //storyKey = json.mf_story_key;
-
+            $( this )[0].innerHTML = _data.count;
+        } )
     },
     attachDislikeContainer : function ( container, dislikes ) {
 
-        var likeLink = $( '.UFILikeLink', container );
-        var likeBox = $( '.UFIBlingBox', container );
+        var likeLink = $( '.UFILikeLink', container ),
+            likeBox = $( '.UFIBlingBox', container ),
+            storyKey = this.parsePostForStoryKey( container );
 
-        var dislikeLink = facebook.buildDislikeLink( dislikes );
-        var dislikeBox = facebook.buildDislikeBox( dislikes );
-
-        $( dislikeLink ).on( 'click', this.dislikeClicked( container ) );
-        $( dislikeBox ).on( 'click', this.dislikeClicked( container ) );
+        var dislikeLink = facebook.buildDislikeLink( dislikes, storyKey );
+        var dislikeBox = facebook.buildDislikeBox( dislikes, storyKey );
 
         // Attach dislike link
         likeLink.each( function () {
-
             $( this ).after( ' · ' + dislikeLink );
 
         } );
 
         // Attach dislike box
         likeBox.each( function () {
-
             $( this ).after( ' · ' + dislikeBox );
         } );
 
-        // Determine if it is a dislike box or link
-        // Drop in dislike link using this.dislikeBoxTemplate or this.dislikeLinkTemplate markup
-        // Setup listeners for on click
-
     },
 
-    buildDislikeLink : function ( dislikes ) {
-        return '<a class="UFILikeLink" href="#" role="button" title="Dislike this comment">Dislike</a>';
+    buildDislikeLink : function ( dislikes, storyKey ) {
+        return '<a class="UFILikeLink dislikeButton" href="#" role="button" title="Dislike this comment" data-facebook-story-key="' + storyKey + '">Dislike</a>';
     },
-    buildDislikeBox : function ( dislikes ) {
-        return '<span><i class="UFIBlingBoxLikeIcon UFIBlingBoxSprite dislikeIcon"></i><span class="UFIBlingBoxText">' + dislikes + '</span></span>';
-    },
-    buildDislikeSentence : function ( dislikes ) {
-        return '<li class="UFIRow UFILikeSentence UFIFirstComponent"><span><a rel="dialog" data-tooltip-alignh="center" role="button"><div class="lfloat"><a class="UFILikeThumbUFIImageBlockImage" href="#" tabindex="-1" title="Dislike this" role="button" aria-label="Disike this"><i class="UFILikeIcon dislikeIcon dislikeSentence"></i></a></div>' + dislikes + ' people</a><span> dislike this.</span></span></li>'
-    },
-    dislikeClicked : function ( container ) {
+    buildDislikeBox : function ( dislikes, storyKey ) {
 
-        // Get post
-        // Check the db for duplicate clicks
-        // If duplicate decrement dislike count
-        // Otherwise if its a new click, increment the dislike count
-        // Update Post to reflect updated dislike count
+        var value = !!dislikes ? dislikes : '0';
+
+        return '<span><i class="UFIBlingBoxLikeIcon UFIBlingBoxSprite dislikeIcon"></i><span class="UFIBlingBoxText dislikeContainer dislikeButton" data-facebook-story-key="' + storyKey + '"">' + value + '</span></span>';
+    },
+    buildDislikeSentence : function ( dislikes, storyKey ) {
+
+        var value = !!dislikes ? dislikes : '0';
+
+        return '<li class="UFIRow UFILikeSentence UFIFirstComponent"><span><a rel="dialog" data-tooltip-alignh="center" role="button"><div class="lfloat"><a class="UFILikeThumbUFIImageBlockImage" href="#" tabindex="-1" title="Dislike this" role="button" aria-label="Disike this"><i class="UFILikeIcon dislikeIcon dislikeSentence "></i></a></div><span class="dislikeContainer dislikeButton" data-facebook-story-key="' + storyKey + '">' + value + '</span> people</a><span> dislike this.</span></span></li>'
+    },
+    dislikeClicked : function ( link ) {
 
         var data = {
             'action' : 'create',
-            'post' : this.parsePostForStoryKey(container),
+            'post' : link.attr( 'data-facebook-story-key' ),
             'user' : this.userKey
         };
 
+        var container = link.closest( 'div[data-ft][data-timestamp]' );
 
-        console.log('dislike clicked');
-        //$.ajax({
-        //    type: "GET",
-        //    url: this.host,
-        //    data: data,
-        //    success: function(_data) {
-        //        console.log(_data);
-        //    }
-        //});
+        debug ? container.css( 'border', '1px solid purple' ) : '';
 
+        this.request( this.host, '?action=' + data.action + '&post=' + data.post + '&user=' + data.user, container );
+
+    },
+    checkForCurrentDislikes : function ( container ) {
+
+        var data = {
+            'action' : 'read',
+            'post' : this.parsePostForStoryKey( container )
+        };
+
+        this.log( container );
+
+        this.request( this.host, '?action=' + data.action + '&post=' + data.post, container );
 
     },
     attachDislikeSentence : function ( container, dislikes ) {
@@ -182,12 +158,19 @@ var facebook = {
 
         sentence.after( this.buildDislikeSentence( dislikes ) );
     },
-    initDatabase : function ( options ) {
+    request : function ( url, query, container ) {
 
-        // Get host off of options options.host else use preset
-        // Get type of db ( Adapters )
-        // start connection
+        $.ajax( {
+            url : url + query,
+            type : "GET",
+            dataType : "text",
+            success : function ( data ) {
 
+                facebook.log( query + ' ' + data );
+
+                (data !== 'null' && data) ? facebook.updateDislikeDom( data, container ) : '';
+            }
+        } );
     },
     log : function ( msg ) {
 
@@ -195,37 +178,6 @@ var facebook = {
             console.log( msg )
         }
 
-    },
-
-    request: function(url, query) {
-
-        $.ajax({
-            url: url + query,
-            type: "GET",
-            dataType: "text",
-            success: function(data) {
-                console.log(data);
-            }
-        });
-
-        //var xhr = new XMLHttpRequest();
-        //
-        //xhr.open('GET', url + query, true);
-        //
-        //// Handle request state change events
-        //xhr.onreadystatechange = function() {
-        //    // If the request completed
-        //    if (xhr.readyState == 4) {
-        //        if (xhr.status == 200) {
-        //            this.log( xhr.responseText );
-        //        } else {
-        //            this.log( 'Error saving: ' + xhr.statusText );
-        //        }
-        //    }
-        //};
-        //
-        //// Send the request and set status
-        //xhr.send();
     }
 };
 
