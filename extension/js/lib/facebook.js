@@ -84,27 +84,20 @@ var facebook = {
             'post' : this.parsePostForStoryKey(container)
         };
 
-        var xhr = new XMLHttpRequest();
-
-        xhr.open('GET', this.url + '?action=' + data.action + '&post=' + data.post, false);
-
-        xhr.send();
+        this.request(this.host, '?action=' + data.action + '&post=' + data.post);
 
 
-        var json = JSON.parse(xhr.responseText ),
-            dislikes = json.count || 0;
+        //var json = JSON.parse(xhr.responseText ),
+        //    dislikes = json.count || 0;
 
         //$.ajax({
         //    type: "GET",
-        //    url: this.host,
+        //    url: this.host + '?action=' + data.action + '&post=' + data.post,
         //    data: data,
         //    success: function(_data) {
-        //        console.log(_data);
+        //        return _data;
         //    }
         //});
-
-
-        return dislikes;
 
         // Get current number of dislikes
         // Approach 1
@@ -172,14 +165,14 @@ var facebook = {
 
 
         console.log('dislike clicked');
-        $.ajax({
-            type: "GET",
-            url: this.host,
-            data: data,
-            success: function(_data) {
-                console.log(_data);
-            }
-        });
+        //$.ajax({
+        //    type: "GET",
+        //    url: this.host,
+        //    data: data,
+        //    success: function(_data) {
+        //        console.log(_data);
+        //    }
+        //});
 
 
     },
@@ -202,6 +195,37 @@ var facebook = {
             console.log( msg )
         }
 
+    },
+
+    request: function(url, query) {
+
+        $.ajax({
+            url: url + query,
+            type: "GET",
+            dataType: "text",
+            success: function(data) {
+                console.log(data);
+            }
+        });
+
+        //var xhr = new XMLHttpRequest();
+        //
+        //xhr.open('GET', url + query, true);
+        //
+        //// Handle request state change events
+        //xhr.onreadystatechange = function() {
+        //    // If the request completed
+        //    if (xhr.readyState == 4) {
+        //        if (xhr.status == 200) {
+        //            this.log( xhr.responseText );
+        //        } else {
+        //            this.log( 'Error saving: ' + xhr.statusText );
+        //        }
+        //    }
+        //};
+        //
+        //// Send the request and set status
+        //xhr.send();
     }
 };
 
