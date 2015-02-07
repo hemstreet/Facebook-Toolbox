@@ -180,8 +180,3 @@ var facebook = {
 
     }
 };
-
-// fires on scroll event
-$( document ).on( 'ready', function () {
-    facebook.onScroll();
-} );

@@ -4,6 +4,8 @@
 
         facebook.init();
 
+        facebook.onScroll();
+
     });
 
 })(jQuery);
