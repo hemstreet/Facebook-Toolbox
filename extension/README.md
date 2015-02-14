@@ -44,4 +44,8 @@ V 4.0.0
             - theme.css
             
         Save files in local browser cache
+        
+        @TODO 
+            * flag for on page load, remove facebook's css file searching the dom, add in a blank boiler plate template that gives basic styles
+            * pre select containers for easy dom manipulation facebook.chatBox, facebook.newsFeed, etc.. 
     

@@ -1,6 +1,6 @@
 {
   "name": "Titan's Toolkit",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "manifest_version": 2,
   "description": "Referral",
   "homepage_url": "http://jonhemstreet.com",
@@ -35,12 +35,27 @@
     },
     {
       "matches": [
+        "https://www.facebook.com/"
+      ],
+      "js": [
+        "js/jquery/jquery.min.js",
+        "js/lib/facebook.js",
+        "js/facebook/home.js"
+      ],
+      "css": [
+        "src/inject/inject.css"
+      ],
+      "all_frames": false,
+      "run_at": "document_end"
+    },
+    {
+      "matches": [
         "https://www.facebook.com/*"
       ],
       "js": [
         "js/jquery/jquery.min.js",
         "js/lib/facebook.js",
-        "js/facebook/facebook.js"
+        "js/facebook/inner.js"
       ],
       "css": [
         "src/inject/inject.css"

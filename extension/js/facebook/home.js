@@ -2,11 +2,12 @@
 
     $(window).on('ready', function() {
 
-        facebook.init();
+        facebook.init({
+            'page' : 'home'
+        });
 
         facebook.onScroll();
 
     });
 
 })(jQuery);
-

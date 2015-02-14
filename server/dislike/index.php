@@ -137,7 +137,7 @@ switch ($action) {
         break;
 
     default:
-        $result = 'No! =[';
+        $result = 'No =[';
 
 }
 

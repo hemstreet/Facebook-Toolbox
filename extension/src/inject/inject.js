@@ -66,8 +66,3 @@ for (var url in referralSites) {
     }
 
 }
-
-//function amazon() {
-//
-//}
-

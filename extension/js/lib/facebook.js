@@ -1,11 +1,37 @@
-var debug = false;
+var debug = true,
+    /*
+     visualDebug log level legend
+     0 : Off
+     1 : Visual Debug
+     2 : Visual Debug & Console Logging
+     */
+    visualDebug = 1;
+
+if(visualDebug > 0) {
+    var debugContainer = $('<ul data-debug-container></ul>' ),
+        logLimit = 50,
+        logCount = 0,
+        totalHistoryLogCount = 0;
+}
 
 var facebook = {
 
     userKey : null,
     host : 'https://jonhemstreet.com/facebook/dislike', // For Remote db
+    page : null,
 
-    init : function () {
+    init : function (config) {
+
+
+        if(this.page !== null) {
+            this.log('this.page is set, bail out!');
+            return;
+        }
+
+        visualDebug > 0 ? this.visualDebugInit() : '';
+
+        this.page = config.page;
+        this.log('set page to : ' + this.page);
 
         // Get unique key
         this.getUserKey();
@@ -20,7 +46,7 @@ var facebook = {
         userKey = userKey.split( '/' )[ 3 ]; // Get the fourth segment of the url string
 
         this.userKey = userKey;
-        this.log( 'set user key to :' + this.userKey );
+        this.log( 'set user key to : ' + this.userKey );
 
     },
     initPostScroll : function () {
@@ -31,7 +57,7 @@ var facebook = {
     onScroll : function () {
 
         // check if it has the class has-dislike-feature
-        var posts = $( '.userContentWrapper:not(.has-dislike-feature)' );
+        var posts = this.getPosts();
 
         for ( var i = 0; i < posts.length; i++ ) {
 
@@ -62,6 +88,11 @@ var facebook = {
         }
 
     },
+    getPosts : function() {
+
+        return $( '.userContentWrapper:not(.has-dislike-feature)' );
+
+    },
     parsePostForStoryKey : function ( container ) {
 
         // Debug
@@ -69,7 +100,9 @@ var facebook = {
 
         var dataFt = container.attr( 'data-ft' ),
             json = JSON.parse( dataFt ),
-            storyKey = json.mf_story_key || json.id;
+            storyKey = json.mf_story_key || container.attr('data-time');
+
+        this.log(storyKey);
 
         return storyKey;
     },
@@ -79,7 +112,6 @@ var facebook = {
         var dislikeContainers = $( '.dislikeContainer', dom );
 
         var _data = JSON.parse( data );
-
 
         dislikeContainers.each( function () {
 
@@ -133,11 +165,26 @@ var facebook = {
             'user' : this.userKey
         };
 
+
+        this.log(link);
+        this.log(this.page);
+
         var container = link.closest( 'div[data-ft][data-timestamp]' );
+
+        if(this.page == 'inner') {
+
+            alert('inner');
+            container = link.closest( 'div[data-ft][data-time]' );
+        }
 
         debug ? container.css( 'border', '1px solid purple' ) : '';
 
+        this.log('dislike clicked');
+        this.log(container);
+
         this.request( this.host, '?action=' + data.action + '&post=' + data.post + '&user=' + data.user, container );
+
+        this.postMessage(container);
 
     },
     checkForCurrentDislikes : function ( container ) {
@@ -147,8 +194,6 @@ var facebook = {
             'post' : this.parsePostForStoryKey( container )
         };
 
-        this.log( container );
-
         this.request( this.host, '?action=' + data.action + '&post=' + data.post, container );
 
     },
@@ -157,6 +202,7 @@ var facebook = {
         var sentence = $( '.UFILikeSentence', container );
 
         sentence.after( this.buildDislikeSentence( dislikes ) );
+
     },
     request : function ( url, query, container ) {
 
@@ -168,15 +214,98 @@ var facebook = {
 
                 facebook.log( query + ' ' + data );
 
-                (data !== 'null' && data) ? facebook.updateDislikeDom( data, container ) : '';
+                (data !== 'null' && data) ? facebook.updateDislikeDom( data, container ) : facebook.log('Server returned ' + data);
             }
         } );
+    },
+    postMessage: function(container) {
+
+        var input = $('.UFIAddCommentInput [data-block] span:last-of-type', container)[0];
+
+        if(input) {
+            input.innerHTML = '<span>Automated dislike test</span>';
+
+            var e = jQuery.Event("keypress");
+            e.which = 13; //choose the one you want
+            e.keyCode = 13;
+            $(input).trigger(e);
+        }
+
     },
     log : function ( msg ) {
 
         if ( debug ) {
-            console.log( msg )
+
+            visualDebug == 2 ? console.log( msg ) : '';
+
+            visualDebug > 0 ? this.visualLog(msg) : '';
+
         }
+
+    },
+    visualLog : function(msg) {
+
+        debugContainer.prepend('<li class="debugLog" style="border-bottom: 1px solid grey; padding: 10px 0;">'+ totalHistoryLogCount + ' ' +  msg + '</li>' );
+        logCount++;
+        totalHistoryLogCount++;
+
+        if(logCount >= logLimit) {
+            $('li:last', debugContainer ).remove();
+        }
+
+    },
+    visualDebugInit: function() {
+
+        this.log('Setting up Visual Debug');
+
+        var defaultDebugWidth = '225px',
+            css = {
+            'position' : 'fixed',
+            'z-index' : '9999',
+            'top' : '43px',
+            'left' : '0',
+            'bottom' : '0',
+            'width' : defaultDebugWidth,
+            'background' : 'rgba(0,0,0,0.8)',
+            'color' : '#fff',
+            'padding' : '10px',
+            'overflow' : 'auto'
+        };
+
+        debugContainer.css(css);
+
+        var debugToggle = $('<a href="#" data-toggle-visual-debugger>Toggle Debug</a>' ),
+            css = {
+            'position' : 'fixed',
+            'top' : '14px',
+            'left' : '11px',
+            'z-index' : '9999',
+            'color' : '#fff'
+        };
+
+        debugToggle.css(css);
+
+        debugToggle.on('click', function(e) {
+
+            e.preventDefault();
+
+            if(debugContainer.hasClass('fullWidthDebug')) {
+
+                debugContainer.css('right', 'auto');
+                debugContainer.css('width', defaultDebugWidth);
+
+            } else {
+                debugContainer.css( 'right', '0' );
+                debugContainer.css( 'width', '100%' );
+            }
+
+            debugContainer.toggleClass('fullWidthDebug');
+
+        });
+
+        $( "#pagelet_bluebar" ).append( debugContainer );
+        $( "#pagelet_bluebar" ).prepend(debugToggle);
+
 
     }
 };
