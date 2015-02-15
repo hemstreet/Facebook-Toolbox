@@ -82,7 +82,7 @@ $actions = [
         }
 
 
-        $result = $conn->query($sql);
+        $conn->query($sql);
 
         return $record;
 

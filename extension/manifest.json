@@ -26,37 +26,12 @@
   "content_scripts": [
     {
       "matches": [
-        "*://*/*"
-      ],
-      "js": [
-        "src/inject/inject.js"
-      ],
-      "all_frames": false,
-      "run_at": "document_end"
-    },
-    {
-      "matches": [
-        "https://www.facebook.com/"
-      ],
-      "js": [
-        "js/jquery/jquery.min.js",
-        "js/lib/facebook.js",
-        "js/facebook/home.js"
-      ],
-      "css": [
-        "src/inject/inject.css"
-      ],
-      "all_frames": false,
-      "run_at": "document_end"
-    },
-    {
-      "matches": [
         "https://www.facebook.com/*"
       ],
       "js": [
         "js/jquery/jquery.min.js",
         "js/lib/facebook.js",
-        "js/facebook/inner.js"
+        "js/facebook/index.js"
       ],
       "css": [
         "src/inject/inject.css"
