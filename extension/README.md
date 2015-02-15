@@ -47,5 +47,7 @@ V 4.0.0
         
         @TODO 
             * flag for on page load, remove facebook's css file searching the dom, add in a blank boiler plate template that gives basic styles
-            * pre select containers for easy dom manipulation facebook.chatBox, facebook.newsFeed, etc.. 
+            * pre select containers for easy dom manipulation facebook.chatBox, facebook.newsFeed, etc..
+            * all_frames = true, open iframe of different sites and save the dom elements ( open 
+             
     

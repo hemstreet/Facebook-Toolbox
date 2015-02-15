@@ -98,9 +98,7 @@ var facebook = {
         // Debug
         debug ? container.css( 'border', '1px solid red' ) : '';
 
-        var dataFt = container.attr( 'data-ft' ),
-            json = JSON.parse( dataFt ),
-            storyKey = json.mf_story_key || container.attr('data-time');
+        var storyKey = container.attr('data-timestamp') || container.attr('data-time');
 
         this.log(storyKey);
 
