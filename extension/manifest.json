@@ -30,11 +30,11 @@
       ],
       "js": [
         "js/jquery/jquery.min.js",
-        "js/lib/facebook.js",
-        "js/facebook/index.js"
+        "src/plugins/facebook/facebook.js",
+        "src/inject/facebook.js"
       ],
       "css": [
-        "src/inject/inject.css"
+        "src/plugins/facebook/facebook.css"
       ],
       "all_frames": false,
       "run_at": "document_end"

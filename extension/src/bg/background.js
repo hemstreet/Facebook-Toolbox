@@ -26,11 +26,9 @@ chrome.webRequest.onCompleted.addListener( function ( details ) {
         // Detects if it is the homepage, need to clean this up
         if ( url.href.indexOf( 'facebook.com/?' ) > -1 || url.href.indexOf( 'facebook.com/ajax/home') > -1 || url.href.indexOf( 'facebook.com/?ref=') > -1 ) {
             chrome.tabs.executeScript( null, {code:"facebook.pageChanged('home')"} );
-            //chrome.tabs.executeScript( null, { 'file' : '/js/facebook/home.js' } )
         }
         else {
             chrome.tabs.executeScript( null, {code:"facebook.pageChanged('inner')"} );
-            //chrome.tabs.executeScript( null, { 'file' : '/js/facebook/inner.js' } );
         }
 
     }

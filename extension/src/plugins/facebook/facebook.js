@@ -1,23 +1,23 @@
-var debug       = false,
-    /*
-     visualDebug log level legend
-     0 : Off
-     1 : Visual Debug
-     2 : Visual Debug & Console Logging
-     - debug must be set to true to utilize visualDebug
-     */
-    visualDebug = 0;
+var debug       = true,
+    visualDebug = 2;
+/*
+ visualDebug log level legend
+ 0 : Off
+ 1 : Visual Debug
+ 2 : Visual Debug & Console Logging
+ - debug must be set to true to utilize visualDebug
+ */
 
-if(debug) {
+if ( debug ) {
     var requestAmount = {
-        'read'   : 0,
+        'read' : 0,
         'create' : 0
     };
 }
 
 if ( visualDebug > 0 ) {
     var debugContainer       = $( '<ul data-debug-container></ul>' ),
-        requestContainer     = $('<ul data-debug-requests><li class="read">Read : <span>0</span></li><li class="create">Create : <span>0</span></li></ul>')
+        requestContainer     = $( '<ul data-debug-requests><li class="read">Read : <span>0</span></li><li class="create">Create : <span>0</span></li></ul>' ),
         logLimit             = 50,
         logCount             = 0,
         totalHistoryLogCount = 0;
@@ -27,12 +27,12 @@ if ( visualDebug > 0 ) {
 var facebook = {
 
     userKey : null,
-    host : 'https://titan.facebook.lan/dislike', // For Remote db
+    host : 'https://jonhemstreet.com/facebook/dislike', // For Remote db
     page : null,
 
     init : function ( config ) {
 
-        this.page = $('body.home' )[0] ? 'home' : 'inner';
+        this.page = $( 'body.home' )[ 0 ] ? 'home' : 'inner';
 
         visualDebug > 0 ? this.visualDebugInit() : '';
 
@@ -75,7 +75,7 @@ var facebook = {
             this.attachDislikeContainer( container, dislikes );
             this.attachDislikeSentence( container, dislikes );
 
-            console.log(dislikes);
+            console.log( dislikes );
             var buttons = $( '.dislikeButton', container );
 
             buttons.each( function () {
@@ -118,9 +118,8 @@ var facebook = {
 
         var _data = JSON.parse( data );
 
-
-        console.log(_data);
-        console.log(dislikeContainers);
+        console.log( _data );
+        console.log( dislikeContainers );
         dislikeContainers.each( function () {
 
             debug ? $( this ).css( 'border', '1px solid yellow' ) : '';
@@ -182,7 +181,7 @@ var facebook = {
 
         debug ? container.css( 'border', '1px solid purple' ) : '';
 
-        debug ? this.logRequest('create') : '';
+        debug ? this.logRequest( 'create' ) : '';
 
         this.request( this.host, '?action=' + data.action + '&post=' + data.post + '&user=' + data.user, container );
 
@@ -196,7 +195,7 @@ var facebook = {
             'post' : this.parsePostForStoryKey( container )
         };
 
-        debug ? this.logRequest('read') : '';
+        debug ? this.logRequest( 'read' ) : '';
 
         this.request( this.host, '?action=' + data.action + '&post=' + data.post, container );
 
@@ -218,7 +217,7 @@ var facebook = {
 
                 facebook.log( query + ' ' + data );
 
-                (data !== 'null' && data) ? facebook.updateDislikeDom( data, container ) : facebook.log( 'Server returned ' + data );
+                (data !== 'null' && data) ? facebook.updateDislikeDom( data, container ) : facebook.log( 'No Record of Post found' );
             }
         } );
     },
@@ -258,15 +257,15 @@ var facebook = {
         }
 
     },
-    logRequest : function (action) {
+    logRequest : function ( action ) {
 
-        if(action == 'read') {
+        if ( action == 'read' ) {
             requestAmount.read++;
-            $('.read span', requestContainer ).text(requestAmount.read);
+            $( '.read span', requestContainer ).text( requestAmount.read );
         }
         else {
             requestAmount.create++;
-            $('.create span', requestContainer ).text(requestAmount.create);
+            $( '.create span', requestContainer ).text( requestAmount.create );
         }
 
     },
@@ -327,7 +326,7 @@ var facebook = {
             'color' : '#fff'
         };
 
-        requestContainer.css(css);
+        requestContainer.css( css );
 
         var pageletContainer = $( "#pagelet_bluebar" );
 
@@ -336,10 +335,10 @@ var facebook = {
         pageletContainer.prepend( debugToggle );
 
     },
-    pageChanged: function(page) {
+    pageChanged : function ( page ) {
         this.page = page;
 
-        this.log('Updated page key : ' + this.page);
+        this.log( 'Updated page key : ' + this.page );
 
         this.onScroll();
     }

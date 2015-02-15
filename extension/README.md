@@ -12,6 +12,8 @@ MVP
 
 V 1.0.0
 * Slap
+* Server health check
+* On dislike / Action fade out screen around input box around text field and ask user for support to encourage others to get the plugin
 
 V 3.0.0
 * Animations for events
