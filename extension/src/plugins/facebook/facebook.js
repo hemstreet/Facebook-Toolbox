@@ -1,5 +1,5 @@
 var debug       = true,
-    visualDebug = 2;
+    visualDebug = 1;
 /*
  visualDebug log level legend
  0 : Off
@@ -27,7 +27,8 @@ if ( visualDebug > 0 ) {
 var facebook = {
 
     userKey : null,
-    host : 'https://jonhemstreet.com/facebook/dislike', // For Remote db
+    host : 'https://jonhemstreet.com/facebook/dislike',
+    //host : 'https://titan.facebook.lan/dislike',
     page : null,
 
     init : function ( config ) {
@@ -75,7 +76,6 @@ var facebook = {
             this.attachDislikeContainer( container, dislikes );
             this.attachDislikeSentence( container, dislikes );
 
-            console.log( dislikes );
             var buttons = $( '.dislikeButton', container );
 
             buttons.each( function () {
@@ -107,6 +107,11 @@ var facebook = {
 
         var storyKey = container.attr( 'data-timestamp' ) || container.attr( 'data-time' );
 
+        if ( storyKey == undefined ) {
+            var data = JSON.parse( container.attr( 'data-ft' ) ),
+                storyKey = data.mf_story_key;
+        }
+
         this.log( storyKey );
 
         return storyKey;
@@ -118,8 +123,6 @@ var facebook = {
 
         var _data = JSON.parse( data );
 
-        console.log( _data );
-        console.log( dislikeContainers );
         dislikeContainers.each( function () {
 
             debug ? $( this ).css( 'border', '1px solid yellow' ) : '';
@@ -218,6 +221,12 @@ var facebook = {
                 facebook.log( query + ' ' + data );
 
                 (data !== 'null' && data) ? facebook.updateDislikeDom( data, container ) : facebook.log( 'No Record of Post found' );
+            },
+            error : function ( xhr, status, err ) {
+                this.log( 'ANGRY AJAX REQUEST' )
+                this.log( xhr );
+                this.log( status );
+                this.log( err );
             }
         } );
     },
