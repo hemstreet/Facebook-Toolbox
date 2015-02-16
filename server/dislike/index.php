@@ -42,6 +42,10 @@ $actions = [
                 if ($index !== false) {
 
                     unset($record['users'][$index]);
+                    $record['users'] = array_values($record['users']);
+
+
+
 
                     $record['count']--;
 
