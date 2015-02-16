@@ -21,8 +21,6 @@ chrome.webRequest.onCompleted.addListener( function ( details ) {
 
     if ( !isScroll && url.search && url.search.indexOf( 'ajaxpipe=1' ) > -1 ) {
 
-        console.log( url.href );
-
         // Detects if it is the homepage, need to clean this up
         if ( url.href.indexOf( 'facebook.com/?' ) > -1 || url.href.indexOf( 'facebook.com/ajax/home' ) > -1 || url.href.indexOf( 'facebook.com/?ref=' ) > -1 ) {
             chrome.tabs.executeScript( null, { code : "facebook.pageChanged('home')" } );

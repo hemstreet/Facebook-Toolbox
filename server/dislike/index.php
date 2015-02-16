@@ -26,26 +26,29 @@ $actions = [
 
         $sql = 'SELECT * FROM dislike WHERE postKey = \'' . $postKey . '\'';
 
-        if ($result = $conn->query($sql)) {
+        $result = $conn->query($sql);
+
+        if ($result && $result->num_rows > 0) {
 
             $row = $result->fetch_assoc();
+
+            $users = json_decode($row['users'], true);
+
+            $row['users'] = array_values($users ? $users : []);
 
             if (!is_null($row)) {
                 $record = [
                     'postKey' => $row['postKey'],
-                    'users' => json_decode($row['users'], true),
-                    'count' => $row['count']
+                    'users' => $row['users'],
+                    'count' => count($row['users'])
                 ];
 
                 $index = array_search($userKey, $record['users']);
 
-                if ($index !== false) {
+                if (($index !== false && $index !== null)) {
 
                     unset($record['users'][$index]);
                     $record['users'] = array_values($record['users']);
-
-
-
 
                     $record['count']--;
 
@@ -103,12 +106,16 @@ $actions = [
 
             $row = $result->fetch_assoc();
 
+            $users = json_decode($row['users'], true);
+
+            $row['users'] = array_values($users ? $users : []);
+
             if (!is_null($row)) {
 
                 $record = [
                     'postKey' => $row['postKey'],
-                    'users' => json_decode($row['users'], true),
-                    'count' => $row['count']
+                    'users' => $row['users'],
+                    'count' => count($row['users'])
                 ];
 
             }

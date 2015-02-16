@@ -27,8 +27,8 @@ if ( visualDebug > 0 ) {
 var facebook = {
 
     userKey : null,
-    host : 'https://jonhemstreet.com/facebook/dislike',
-    //host : 'https://titan.facebook.lan/dislike',
+    //host : 'https://jonhemstreet.com/facebook/dislike',
+    host : 'https://titan.facebook.lan/dislike',
     page : null,
 
     init : function ( config ) {
@@ -212,18 +212,24 @@ var facebook = {
     },
     request : function ( url, query, container ) {
 
+        var time = new Date().getTime();
+
+        console.log(url + query + '&cacheBuster=' + time);
+
         $.ajax( {
-            url : url + query,
+            url : url + query + '&cacheBuster=' + time,
             type : "GET",
             dataType : "text",
             success : function ( data ) {
+
+                console.log(data);
 
                 facebook.log( query + ' ' + data );
 
                 (data !== 'null' && data) ? facebook.updateDislikeDom( data, container ) : facebook.log( 'No Record of Post found' );
             },
             error : function ( xhr, status, err ) {
-                this.log( 'ANGRY AJAX REQUEST' )
+                this.log( 'ANGRY AJAX REQUEST' );
                 this.log( xhr );
                 this.log( status );
                 this.log( err );
