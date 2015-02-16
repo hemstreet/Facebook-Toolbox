@@ -1,5 +1,5 @@
-var debug       = true,
-    visualDebug = 1;
+var debug       = false,
+    visualDebug = 0;
 /*
  visualDebug log level legend
  0 : Off
@@ -27,8 +27,8 @@ if ( visualDebug > 0 ) {
 var facebook = {
 
     userKey : null,
-    //host : 'https://jonhemstreet.com/facebook/dislike',
-    host : 'https://titan.facebook.lan/dislike',
+    host : 'https://jonhemstreet.com/facebook/dislike',
+    //host : 'https://titan.facebook.lan/dislike',
     page : null,
 
     init : function ( config ) {
@@ -214,15 +214,11 @@ var facebook = {
 
         var time = new Date().getTime();
 
-        console.log(url + query + '&cacheBuster=' + time);
-
         $.ajax( {
             url : url + query + '&cacheBuster=' + time,
             type : "GET",
             dataType : "text",
             success : function ( data ) {
-
-                console.log(data);
 
                 facebook.log( query + ' ' + data );
 
