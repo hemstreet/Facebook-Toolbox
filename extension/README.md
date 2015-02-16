@@ -50,6 +50,16 @@ V 4.0.0
         @TODO 
             * flag for on page load, remove facebook's css file searching the dom, add in a blank boiler plate template that gives basic styles
             * pre select containers for easy dom manipulation facebook.chatBox, facebook.newsFeed, etc..
-            * all_frames = true, open iframe of different sites and save the dom elements ( open 
+            * all_frames = true, open iframe of different sites and save the dom elements ( open
+             
+             Theme Ideas 
+                https://www.behance.net/gallery/9894359/Facebook-Redesign-Concept
+                http://www.vandelaydesign.com/facebook-news-feed-redesign-concepts/
+                https://www.behance.net/gallery/Facebook-New-Look-Concept/6504647
+                http://line25.com/articles/30-unofficial-redesigns-of-popular-social-media-sites
+                https://www.behance.net/gallery/Facebook-Evolution/14138873
+                
+            Inspiration
+                https://www.behance.net/gallery/Yahoo-Redesign-Concept/13832169
              
     

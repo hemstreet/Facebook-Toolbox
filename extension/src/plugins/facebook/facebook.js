@@ -1,5 +1,5 @@
-var debug       = false,
-    visualDebug = 0;
+var debug       = true,
+    visualDebug = 1;
 /*
  visualDebug log level legend
  0 : Off
