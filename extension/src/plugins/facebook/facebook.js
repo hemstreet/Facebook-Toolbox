@@ -1,5 +1,5 @@
-var debug       = true,
-    visualDebug = 1;
+var debug        = false,
+    visualDebug  = 0;
 /*
  visualDebug log level legend
  0 : Off
@@ -58,7 +58,12 @@ var facebook = {
     },
     initPostScroll : function () {
 
-        //$( window ).scroll( this.onScroll.bind( this ) );
+        setInterval( function () {
+            facebook.onScroll();
+        }, 3000 );
+
+        //setTimeout($( window ).scroll( this.onScroll ), 1000);
+        //setTimeout($( window ).scroll( this.onScroll ), 2000);
 
     },
     onScroll : function () {
@@ -69,6 +74,14 @@ var facebook = {
         for ( var i = 0; i < posts.length; i++ ) {
 
             var post = posts[ i ];
+
+            if ( $( '.duplicate-dislike-links', post ).length > 0 ) {
+                console.log( 'duplicate dislike links found, bail out' );
+                console.log( post );
+                console.log( '-----' );
+                return;
+            }
+
             var container = $( post ).closest( 'div[data-ft]' );
 
             var dislikes = this.checkForCurrentDislikes( container );
@@ -91,13 +104,24 @@ var facebook = {
             // Debug
             debug ? $( post ).css( 'border', '1px solid green' ) : '';
 
-            $( post ).addClass( 'has-dislike-feature' );
         }
 
     },
     getPosts : function () {
 
-        return $( '.userContentWrapper:not(.has-dislike-feature)' );
+        var posts = $( '.userContentWrapper:not(.has-dislike-feature)' );
+
+        posts.each( function () {
+
+            $( this ).addClass( 'has-dislike-feature' );
+
+            if ( $( '.UFIFirstComponent', $( this ) ).length > 0 ) {
+                $( this ).addClass( 'duplicate-dislike-links' );
+            }
+
+        } );
+
+        return posts;
 
     },
     parsePostForStoryKey : function ( container ) {
@@ -237,12 +261,19 @@ var facebook = {
         var input = $( '.UFIAddCommentInput [data-block] span:last-of-type', container )[ 0 ];
 
         if ( input ) {
-            input.innerHTML = '<span>Automated dislike test</span>';
 
-            var e = jQuery.Event( "keypress" );
-            e.which = 13; //choose the one you want
-            e.keyCode = 13;
-            $( input ).trigger( e );
+            facebook.log('We could pot a comment here');
+            //input.innerHTML = '<span>Automated dislike test</span>';
+
+            //alert( 'dislike clicked, dropped in text, $(form).submit() fails' );
+            //$(input).closest('form').submit();
+
+            //
+            //var e = jQuery.Event( "keypress" );
+            //e.which = 13; //choose the one you want
+            //e.keyCode = 13;
+            //$( input ).trigger( e );
+
         }
 
     },
