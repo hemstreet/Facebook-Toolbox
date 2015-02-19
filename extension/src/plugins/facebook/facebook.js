@@ -249,10 +249,10 @@ var facebook = {
                 (data !== 'null' && data) ? facebook.updateDislikeDom( data, container ) : facebook.log( 'No Record of Post found' );
             },
             error : function ( xhr, status, err ) {
-                this.log( 'ANGRY AJAX REQUEST' );
-                this.log( xhr );
-                this.log( status );
-                this.log( err );
+                facebook.log( 'ANGRY AJAX REQUEST' );
+                facebook.log( xhr );
+                facebook.log( status );
+                facebook.log( err );
             }
         } );
     },
