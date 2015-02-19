@@ -1,8 +1,8 @@
 {
-  "name": "Titan's Toolkit",
-  "version": "0.0.35",
+  "name": "Facebook Toolbox",
+  "version": "0.8.0",
   "manifest_version": 2,
-  "description": "Referral",
+  "description": "Adds Facebook features that are not included in the existing platform",
   "homepage_url": "http://jonhemstreet.com",
   "icons": {
     "16": "icons/icon16.png",
