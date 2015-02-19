@@ -76,9 +76,6 @@ var facebook = {
             var post = posts[ i ];
 
             if ( $( '.duplicate-dislike-links', post ).length > 0 ) {
-                console.log( 'duplicate dislike links found, bail out' );
-                console.log( post );
-                console.log( '-----' );
                 return;
             }
 
