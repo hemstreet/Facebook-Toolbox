@@ -18,10 +18,7 @@
   },
   "permissions": [
     "webRequest",
-    "contentSettings",
-    "cookies",
-    "notifications",
-    "*://*/*"
+    "https://www.facebook.com/*"
   ],
   "content_scripts": [
     {
