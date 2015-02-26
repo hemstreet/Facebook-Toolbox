@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * Plugin Name: Facebook Toolbox Server
+ * Author: Jonathan Naylor, Jon Hemstreet
+ * Version: 0.8.4
+ * Description: Provides endpoints to facilitate the features of Facebook Toolbox
+ */
+
+
 $tableName = 'dislike';
 
 // Include credentials
@@ -154,24 +162,6 @@ switch ($action) {
 
 echo $result;
 
-
-//get a post by post id
-// - each story or post has its own story-key.
-//   used to lookup the amount of dislikes on that post
-
-/*
- * Create a dislike
- *   x
-//returns
-/*
- * number of dislikes
- * who disliked it
- */
-
-
-//echo "Connected successfully";
-
-// Close the connect to the database server
 $conn->close();
 
 

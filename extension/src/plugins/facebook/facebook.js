@@ -1,5 +1,14 @@
-var debug        = false,
-    visualDebug  = 0;
+/**
+ * Plugin Name: Facebook Toolbox
+ * Author: Jon Hemstreet
+ * Version: 0.8.4
+ * Description: This is where the magic happens. Init is called and kicks off the init functions of setting up scroll handlers and sets the unique user key from facebook's navigation bar header.
+ * On scroll scan through the posts and check to see if they have a class of 'has-dislike-feature' to make sure we do not select the same post twice. After the unique posts are picked,
+ * loop through and attach the dislike buttons to the posts.
+ */
+
+var debug        = true,
+    visualDebug  = 1;
 /*
  visualDebug log level legend
  0 : Off
@@ -28,7 +37,6 @@ var facebook = {
 
     userKey : null,
     host : 'https://jonhemstreet.com/facebook/dislike',
-    //host : 'https://titan.facebook.lan/dislike',
     page : null,
 
     init : function ( config ) {
@@ -61,9 +69,6 @@ var facebook = {
         setInterval( function () {
             facebook.onScroll();
         }, 3000 );
-
-        //setTimeout($( window ).scroll( this.onScroll ), 1000);
-        //setTimeout($( window ).scroll( this.onScroll ), 2000);
 
     },
     onScroll : function () {
@@ -260,11 +265,13 @@ var facebook = {
         if ( input ) {
 
             facebook.log('We could pot a comment here');
-            //input.innerHTML = '<span>Automated dislike test</span>';
 
+            // @TODO make this sharing feature work
+            //input.innerHTML = '<span>Automated dislike test</span>';
+            //
             //alert( 'dislike clicked, dropped in text, $(form).submit() fails' );
             //$(input).closest('form').submit();
-
+            //
             //
             //var e = jQuery.Event( "keypress" );
             //e.which = 13; //choose the one you want

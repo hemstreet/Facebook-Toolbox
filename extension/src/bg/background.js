@@ -1,3 +1,13 @@
+/**
+ * Plugin Name: Facebook Toolbox
+ * Author: Jon Hemstreet
+ * Version: 0.8.4
+ * Description: When *://*.facebook.com/* ( any page of facebook ) is visited, this script will listen to any ajax requests.
+ * If the ajax request is either of the 'scrollIdentifiers' ( unique identifiers of the infinite scroll feature ) drop into the control structure.
+ * The conditional then checks to see if it is the homepage or an inner page of facebook and executes the pageChanged function on the facebook object in src/plugins/facebook/facebook.js
+ */
+
+
 var scrollIdentifiers = [
     'ProfileTimelineSectionPagelet',
     'LitestandMoreStoriesPagelet'

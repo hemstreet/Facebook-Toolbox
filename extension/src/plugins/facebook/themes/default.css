@@ -1,0 +1,30 @@
+html body,
+html #mainContainer #contentCol,
+html .fbTimelineCapsule {
+  background-color: #26416c !important;
+}
+html #leftCol {
+  background: #fff;
+  margin-top: 12px;
+}
+html #mainContainer {
+  margin-top: 20px;
+}
+html .dislikeIcon {
+  margin-left: 5px;
+  -moz-transform: rotate(180deg);
+  -webkit-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+html .dislikeSentence {
+  margin-left: 0;
+  margin-right: 5px;
+}
+html #blueBarNAXAnchor {
+  background: #345790;
+}
+html #pagelet_composer {
+  margin-bottom: 35px;
+}

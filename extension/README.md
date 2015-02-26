@@ -9,12 +9,15 @@ MVP
 
 @Todo 
 * Research point referral kicks in ( checkout screen, adding item to a cart ), this way we can redirect only when needed so the user does not get annoyed at the constant refreshing
+* Server health check
 
 V 1.0.0
 * Slap
-* Server health check
 * On dislike / Action fade out screen around input box around text field and ask user for support to encourage others to get the plugin
 
+V 2.0.0 
+* GIF support ( new button to upload a post, grab storyKey, replace image with custom gif )
+    
 V 3.0.0
 * Animations for events
 
