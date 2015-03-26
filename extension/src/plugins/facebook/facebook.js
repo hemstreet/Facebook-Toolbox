@@ -1,6 +1,7 @@
 /**
  * Plugin Name: Facebook Toolbox
  * Author: Jon Hemstreet
+ * Email: me@jonhemstreet.com
  * Version: 0.8.4
  * Description: This is where the magic happens. Init is called and kicks off the init functions of setting up scroll handlers and sets the unique user key from facebook's navigation bar header.
  * On scroll scan through the posts and check to see if they have a class of 'has-dislike-feature' to make sure we do not select the same post twice. After the unique posts are picked,

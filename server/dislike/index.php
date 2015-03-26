@@ -3,6 +3,7 @@
 /**
  * Plugin Name: Facebook Toolbox Server
  * Author: Jonathan Naylor
+ * Email: jonathanfranklinnaylor@gmail.com
  * Version: 0.8.4
  * Description: Provides endpoints to facilitate the features of Facebook Toolbox
  */

@@ -1,14 +1,11 @@
 # Titans-Toolbox
-Referral system
 
 # RoadMap
 
 MVP
-* Referral monetization system
 * Facebook Dislike
 
 @Todo 
-* Research point referral kicks in ( checkout screen, adding item to a cart ), this way we can redirect only when needed so the user does not get annoyed at the constant refreshing
 * Server health check
 
 V 1.0.0
@@ -24,6 +21,7 @@ V 3.0.0
 V 4.0.0
 * Custom Themes
 
+    Themes are dropped in
     Facebook object query for each element, save as variable ( dom ) eg.
     
     facebook.chatList
