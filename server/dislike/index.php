@@ -2,7 +2,7 @@
 
 /**
  * Plugin Name: Facebook Toolbox Server
- * Author: Jonathan Naylor
+ * Author: Jonathan Naylor, Jon Hemstreet
  * Email: jonathanfranklinnaylor@gmail.com
  * Version: 0.8.4
  * Description: Provides endpoints to facilitate the features of Facebook Toolbox
@@ -29,11 +29,18 @@ if ($conn->connect_error) {
 
 }
 
+function santitizeData($conn, $data) {
+    $newData = mysqli_real_escape_string($conn, $data);
+
+    return $newData;
+}
+
+
 $actions = [
     'create' => function ($postKey, $userKey) use ($conn) {
         //returns status on insert into database
 
-        $sql = 'SELECT * FROM dislike WHERE postKey = \'' . $postKey . '\'';
+        $sql = 'SELECT * FROM dislike WHERE postKey = \'' . santitizeData($conn, $postKey) . '\'';
 
         $result = $conn->query($sql);
 
@@ -69,7 +76,7 @@ $actions = [
                 };
 
 //                $sql = 'INSERT INTO `dislike` (`postKey`, `users`, `count`) VALUES (\'' . $record['postKey'] . '\', \'' . json_encode($record['users']) . '\',' . $record['count'] . ') ON DUPLICATE KEY UPDATE `users` = \''.json_encode($record['users']).'\', count = '.$record['count'];
-                $sql = "UPDATE `dislike` SET `count`=" . $record['count'] . ",`users`='" . json_encode($record['users']) . "' WHERE postKey = '" . $record['postKey'] . "'";
+                $sql = "UPDATE `dislike` SET `count`=" . santitizeData($conn, $record['count']) . ",`users`='" . santitizeData($conn, json_encode($record['users'])) . "' WHERE postKey = '" . santitizeData($conn, $record['postKey']) . "'";
 
             } else {
 
@@ -79,7 +86,7 @@ $actions = [
                     'count' => 1
                 ];
 
-                $sql = 'INSERT INTO `dislike` (`postKey`, `users`, `count`) VALUES (\'' . $record['postKey'] . '\', \'' . json_encode($record['users']) . '\',' . $record['count'] . ')';
+                $sql = 'INSERT INTO `dislike` (`postKey`, `users`, `count`) VALUES (\'' . santitizeData($conn, $record['postKey']) . '\', \'' . santitizeData($conn, json_encode($record['users'])) . '\',' . santitizeData($conn, $record['count']) . ')';
 
             }
 
@@ -93,7 +100,7 @@ $actions = [
                 'count' => 1
             ];
 
-            $sql = 'INSERT INTO `dislike` (`postKey`, `users`, `count`) VALUES (\'' . $record['postKey'] . '\', \'' . json_encode($record['users']) . '\',' . $record['count'] . ')';
+            $sql = 'INSERT INTO `dislike` (`postKey`, `users`, `count`) VALUES (\'' . santitizeData($conn, $record['postKey']) . '\', \'' . santitizeData($conn, json_encode($record['users'])) . '\',' . santitizeData($conn, $record['count']) . ')';
 
         }
 
@@ -109,7 +116,7 @@ $actions = [
 
         $record = null;
 
-        $sql = 'SELECT * FROM dislike WHERE postKey = \'' . $postKey . '\'';
+        $sql = 'SELECT * FROM dislike WHERE postKey = \'' . santitizeData($conn, $postKey) . '\'';
 
         if ($result = $conn->query($sql)) {
 
