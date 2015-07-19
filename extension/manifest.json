@@ -1,6 +1,6 @@
 {
   "name": "Facebook Toolbox",
-  "version": "0.8.4",
+  "version": "0.0.1",
   "manifest_version": 2,
   "description": "Adds Facebook features that are not included in the existing platform",
   "homepage_url": "http://jonhemstreet.com",
@@ -28,12 +28,12 @@
         "https://www.facebook.com/*"
       ],
       "js": [
-        "js/jquery/jquery.min.js",
+        "vendor/js/jquery.min.js",
         "src/plugins/facebook/facebook.js",
         "src/inject/facebook.js"
       ],
       "css": [
-        "src/plugins/facebook/themes/default.css"
+        "src/plugins/facebook/themes/css/default.css"
       ],
       "all_frames": false,
       "run_at": "document_end"
