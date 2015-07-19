@@ -1,0 +1,16 @@
+.has-dislike-feature {
+  border: 5px solid red;
+}
+.dislikeLink i.img {
+  -ms-transform: rotate(180deg);
+  /* IE 9 */
+  -webkit-transform: rotate(180deg);
+  /* Chrome, Safari, Opera */
+  transform: rotate(180deg);
+}
+.dislikeImage {
+  background-image: url(../images/sprites.png);
+  background-size: 35px 217px;
+  background-repeat: no-repeat;
+  display: inline-block;
+}
