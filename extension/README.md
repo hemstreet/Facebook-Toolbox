@@ -64,3 +64,7 @@ V 4.0.0
                 https://www.behance.net/gallery/Yahoo-Redesign-Concept/13832169
              
     
+Future Ideas
+    gif integration into chat.
+    * Stew gif {Search-query}
+    * this will go to http://giphy.com/search/{Search-query} and pick the a random image use src from data-animated
